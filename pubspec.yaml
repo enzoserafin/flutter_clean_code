@@ -11,14 +11,18 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^0.1.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
-
+  # Biblioteca de testes do Dart (para não precisa do Flutter)
+  test: 1.15.0 
+  # Mock de classes
+  mockito: 3.0.2
+  # Gerar valores aleatórios em testes
+  faker: 1.3.0
  
 flutter:
   uses-material-design: true
