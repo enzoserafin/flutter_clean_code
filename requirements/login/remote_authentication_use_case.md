@@ -8,7 +8,7 @@
 1. Sistema retorna uma mensangem de erro inesperado
 
 > ## Exceção - Dados inválidos
-1. Sistema retorna uma mensangem de erro inesperado
+1. ✅ Sistema retorna uma mensangem de erro inesperado
 
 > ## Exceção - Resposta inválida
 1. Sistema retorna uma mensangem de erro inesperado
