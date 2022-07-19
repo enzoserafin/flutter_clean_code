@@ -17,4 +17,4 @@
 1. ✅ Sistema retorna uma mensangem de erro inesperado
 
 > ## Exceção - Credenciais inválidas
-1. Sistema retorna uma mensangem de erro informando que as credenciais estão erradas
+1. ✅ Sistema retorna uma mensangem de erro informando que as credenciais estão erradas
