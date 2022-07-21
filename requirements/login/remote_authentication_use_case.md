@@ -11,7 +11,7 @@
 1. ✅ Sistema retorna uma mensangem de erro inesperado
 
 > ## Exceção - Resposta inválida
-1. Sistema retorna uma mensangem de erro inesperado
+1. ✅ Sistema retorna uma mensangem de erro inesperado
 
 > ## Exceção - Falha no servidor
 1. ✅ Sistema retorna uma mensangem de erro inesperado
