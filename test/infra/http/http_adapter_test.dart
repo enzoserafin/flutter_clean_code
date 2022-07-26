@@ -98,13 +98,13 @@ void main() {
       expect(future, throwsA(HttpError.unauthorized));
     });
 
-    // test('Should return BadRequest if post returns 4003', () async {
-    //   mockResponse(403);
+    test('Should return Forbidden if post returns 403', () async {
+      mockResponse(403);
 
-    //   final future = sut.request(url: url, method: 'post');
+      final future = sut.request(url: url, method: 'post');
 
-    //   expect(future, throwsA(HttpError.invalidData));
-    // });
+      expect(future, throwsA(HttpError.forbidden));
+    });
 
     // test('Should return NotFound if post returns 404', () async {
     //   mockResponse(404);
