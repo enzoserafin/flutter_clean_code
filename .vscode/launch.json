@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "flutter_clean_code",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main/main.dart"
+        },
+        {
+            "name": "All Tests",
+            "type": "dart",
+            "request": "launch",
+            "program": "./test/"
+        },
+    ]
+}
