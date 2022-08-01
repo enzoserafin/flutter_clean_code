@@ -96,4 +96,16 @@ void main() {
     sut.validateEmail(email);
     sut.validatePassword(password);
   });
+
+  test('Should emit null if validation succeeds', () async {
+    sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
+    sut.passwordErrorStream
+        .listen(expectAsync1((error) => expect(error, null)));
+    expectLater(sut.isFormValidStream, emitsInOrder([false, true]));
+
+    sut.validateEmail(email);
+    // Aula 23
+    await Future.delayed(Duration.zero);
+    sut.validatePassword(password);
+  });
 }

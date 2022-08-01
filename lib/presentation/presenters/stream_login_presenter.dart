@@ -4,12 +4,18 @@ import 'package:meta/meta.dart';
 import '../protocols/protocols.dart';
 
 class LoginState {
+  String email;
+  String password;
   String emailError;
   String passwordError;
 
   // Deixando o isFormValid apenas como getter (sem variável) nos economizamos memória
   // há apenas uma computação.
-  bool get isFormValid => false;
+  bool get isFormValid =>
+      emailError == null &&
+      passwordError == null &&
+      email != null &&
+      password != null;
 }
 
 class StreamingLoginPresenter {
@@ -33,11 +39,13 @@ class StreamingLoginPresenter {
   void update() => _controller.add(_state);
 
   void validateEmail(String email) {
+    _state.email = email;
     _state.emailError = validation.validate(field: 'email', value: email);
     update();
   }
 
   void validatePassword(String password) {
+    _state.password = password;
     _state.passwordError =
         validation.validate(field: 'password', value: password);
     update();
