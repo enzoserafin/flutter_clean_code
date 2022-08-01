@@ -34,8 +34,14 @@ void main() {
   test('Should email error if validation fails', () {
     mockValidation(value: 'error');
 
-    expectLater(sut.emailErrorStream, emits('error'));
+    //Verificar se a stream recebe o valor de erro 1 vez e após a emissão de um novo erro igual ao anteriro
+    // a stream não publica nada. Para isso usamos o .distinct() no getter da stream.
+    sut.emailErrorStream
+        .listen(expectAsync1((error) => expect(error, 'error')));
+    sut.isFormValidStream
+        .listen(expectAsync1((isValid) => expect(isValid, false)));
 
+    sut.validateEmail(email);
     sut.validateEmail(email);
   });
 }

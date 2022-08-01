@@ -5,6 +5,10 @@ import '../protocols/protocols.dart';
 
 class LoginState {
   String emailError;
+
+  // Deixando o isFormValid apenas como getter (sem variável) nos economizamos memória
+  // há apenas uma computação.
+  bool get isFormValid => false;
 }
 
 class StreamingLoginPresenter {
@@ -13,8 +17,12 @@ class StreamingLoginPresenter {
 
   var _state = LoginState();
 
+  // Caso a stream receba o mesmo valor que o anterior ela não publica nova emissão de erro.
   Stream<String> get emailErrorStream =>
-      _controller.stream.map((state) => state.emailError);
+      _controller.stream.map((state) => state.emailError).distinct();
+
+  Stream<bool> get isFormValidStream =>
+      _controller.stream.map((state) => state.isFormValid).distinct();
 
   StreamingLoginPresenter({@required this.validation});
 
