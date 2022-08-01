@@ -33,7 +33,7 @@ void main() {
     verify(validation.validate(field: 'email', value: email)).called(1);
   });
 
-  test('Should email error if validation fails', () {
+  test('Should emit email error if validation fails', () {
     mockValidation(value: 'error');
 
     //Verificar se a stream recebe o valor de erro 1 vez e após a emissão de um novo erro igual ao anteriro
@@ -48,8 +48,6 @@ void main() {
   });
 
   test('Should emit null if validation succeeds', () {
-    //Verificar se a stream recebe o valor de erro 1 vez e após a emissão de um novo erro igual ao anteriro
-    // a stream não publica nada. Para isso usamos o .distinct() no getter da stream.
     sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
     sut.isFormValidStream
         .listen(expectAsync1((isValid) => expect(isValid, false)));
@@ -62,5 +60,26 @@ void main() {
     sut.validatePassword(password);
 
     verify(validation.validate(field: 'password', value: password)).called(1);
+  });
+
+  test('Should emit password error if validation fails', () {
+    mockValidation(value: 'error');
+    sut.passwordErrorStream
+        .listen(expectAsync1((error) => expect(error, 'error')));
+    sut.isFormValidStream
+        .listen(expectAsync1((isValid) => expect(isValid, false)));
+
+    sut.validatePassword(password);
+    sut.validatePassword(password);
+  });
+
+  test('Should emit null if validation succeeds', () {
+    sut.passwordErrorStream
+        .listen(expectAsync1((error) => expect(error, null)));
+    sut.isFormValidStream
+        .listen(expectAsync1((isValid) => expect(isValid, false)));
+
+    sut.validatePassword(password);
+    sut.validatePassword(password);
   });
 }
