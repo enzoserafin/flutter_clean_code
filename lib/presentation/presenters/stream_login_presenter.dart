@@ -10,6 +10,7 @@ class LoginState {
   String password;
   String emailError;
   String passwordError;
+  bool isLoading = false;
 
   // Deixando o isFormValid apenas como getter (sem variável) nos economizamos memória
   // há apenas uma computação.
@@ -37,6 +38,9 @@ class StreamingLoginPresenter {
   Stream<bool> get isFormValidStream =>
       _controller.stream.map((state) => state.isFormValid).distinct();
 
+  Stream<bool> get isLoadingStream =>
+      _controller.stream.map((state) => state.isLoading).distinct();
+
   StreamingLoginPresenter(
       {@required this.validation, @required this.authentication});
 
@@ -56,7 +60,11 @@ class StreamingLoginPresenter {
   }
 
   Future<void> auth() async {
+    _state.isLoading = true;
+    update();
     await authentication.auth(
         AuthenticationParams(email: _state.email, secret: _state.password));
+    _state.isLoading = false;
+    update();
   }
 }
