@@ -2,13 +2,18 @@ import 'package:faker/faker.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+import 'package:flutter_clean_code/domain/usecases/usecases.dart';
+
 import 'package:flutter_clean_code/presentation/presenters/presenters.dart';
 import 'package:flutter_clean_code/presentation/protocols/protocols.dart';
 
 class ValidationSpy extends Mock implements Validation {}
 
+class AuthenticationSpy extends Mock implements Authentication {}
+
 void main() {
   StreamingLoginPresenter sut;
+  AuthenticationSpy authentication;
   ValidationSpy validation;
   String email;
   String password;
@@ -22,7 +27,9 @@ void main() {
 
   setUp(() {
     validation = ValidationSpy();
-    sut = StreamingLoginPresenter(validation: validation);
+    authentication = AuthenticationSpy();
+    sut = StreamingLoginPresenter(
+        validation: validation, authentication: authentication);
     email = faker.internet.email();
     password = faker.internet.password();
     mockValidation();
@@ -107,5 +114,16 @@ void main() {
     // Aula 23
     await Future.delayed(Duration.zero);
     sut.validatePassword(password);
+  });
+
+  test('Should authentication with correct values', () async {
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+
+    await sut.auth();
+
+    verify(authentication
+            .auth(AuthenticationParams(email: email, secret: password)))
+        .called(1);
   });
 }
