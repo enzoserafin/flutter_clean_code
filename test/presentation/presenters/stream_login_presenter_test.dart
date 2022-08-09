@@ -14,7 +14,7 @@ class ValidationSpy extends Mock implements Validation {}
 class AuthenticationSpy extends Mock implements Authentication {}
 
 void main() {
-  StreamingLoginPresenter sut;
+  StreamLoginPresenter sut;
   AuthenticationSpy authentication;
   ValidationSpy validation;
   String email;
@@ -41,7 +41,7 @@ void main() {
   setUp(() {
     validation = ValidationSpy();
     authentication = AuthenticationSpy();
-    sut = StreamingLoginPresenter(
+    sut = StreamLoginPresenter(
         validation: validation, authentication: authentication);
     email = faker.internet.email();
     password = faker.internet.password();

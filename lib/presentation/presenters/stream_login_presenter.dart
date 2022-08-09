@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 
+import '../../ui/pages/pages.dart';
+
 import '../../domain/helpers/helpers.dart';
 import '../../domain/usecases/authentication.dart';
 
@@ -24,7 +26,7 @@ class LoginState {
       password != null;
 }
 
-class StreamingLoginPresenter {
+class StreamLoginPresenter implements LoginPresenter {
   final Validation validation;
   final Authentication authentication;
   var _controller = StreamController<LoginState>.broadcast();
@@ -46,7 +48,7 @@ class StreamingLoginPresenter {
   Stream<bool> get isLoadingStream =>
       _controller?.stream?.map((state) => state.isLoading)?.distinct();
 
-  StreamingLoginPresenter(
+  StreamLoginPresenter(
       {@required this.validation, @required this.authentication});
 
   void update() => _controller?.add(_state);
