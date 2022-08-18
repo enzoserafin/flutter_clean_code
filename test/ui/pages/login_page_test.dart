@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -90,7 +88,7 @@ void main() {
       (WidgetTester tester) async {
     await loadPage(tester);
 
-    emailError = null;
+    emailError.value = null;
     await tester.pump();
 
     expect(
@@ -128,7 +126,7 @@ void main() {
       (WidgetTester tester) async {
     await loadPage(tester);
 
-    passwordError = null;
+    passwordError.value = null;
     await tester.pump();
 
     expect(
