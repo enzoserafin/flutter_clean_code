@@ -169,7 +169,7 @@ void main() {
     sut.validateEmail(email);
     sut.validatePassword(password);
 
-    expectLater(sut.isLoading.stream, emitsInOrder([true, false]));
+    expectLater(sut.isLoading.stream, emits(true));
 
     await sut.auth();
   });
