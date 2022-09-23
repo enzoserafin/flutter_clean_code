@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../components/components.dart';
 import 'components/components.dart';
@@ -33,6 +34,12 @@ class LoginPage extends StatelessWidget {
           presenter.mainError.listen((error) {
             if (error != null) {
               showErrorMessage(context, error);
+            }
+          });
+
+          presenter.navigateToStream.listen((page) {
+            if (page?.isNotEmpty == true) {
+              Get.offAllNamed(page);
             }
           });
 

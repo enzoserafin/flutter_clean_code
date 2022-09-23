@@ -13,6 +13,7 @@ void main() {
   var emailError = RxString();
   var passwordError = RxString();
   var mainError = RxString();
+  var navigateToController = RxString();
   var isFormValid = RxBool();
   var isLoading = RxBool();
 
@@ -20,6 +21,7 @@ void main() {
     when(presenter.emailError).thenAnswer((_) => emailError);
     when(presenter.passwordError).thenAnswer((_) => passwordError);
     when(presenter.mainError).thenAnswer((_) => mainError);
+    when(presenter.navigateToStream).thenAnswer((_) => navigateToController);
     when(presenter.isFormValid).thenAnswer((_) => isFormValid);
     when(presenter.isLoading).thenAnswer((_) => isLoading);
   }
@@ -27,7 +29,17 @@ void main() {
   Future<void> loadPage(WidgetTester tester) async {
     presenter = Get.put<LoginPresenter>(LoginPresenterSpy());
     mockStreams();
-    final loginPage = MaterialApp(home: LoginPage(presenter));
+    final loginPage = GetMaterialApp(
+      initialRoute: '/login',
+      getPages: [
+        GetPage(name: '/login', page: () => LoginPage(presenter)),
+        GetPage(
+            name: '/any_route',
+            page: () => Scaffold(
+                  body: Text('fake page'),
+                )),
+      ],
+    );
     await tester.pumpWidget(loginPage);
   }
 
@@ -214,5 +226,15 @@ void main() {
     await tester.pump();
 
     expect(find.text('mainError'), findsOneWidget);
+  });
+
+  testWidgets('Should change page', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.value = '/any_route';
+    await tester.pumpAndSettle();
+
+    expect(Get.currentRoute, '/any_route');
+    expect(find.text('fake page'), findsOneWidget);
   });
 }

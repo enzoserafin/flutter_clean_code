@@ -4,6 +4,7 @@ abstract class LoginPresenter {
   RxString get emailError;
   RxString get passwordError;
   RxString get mainError;
+  RxString get navigateToStream;
   RxBool get isFormValid;
   RxBool get isLoading;
 
