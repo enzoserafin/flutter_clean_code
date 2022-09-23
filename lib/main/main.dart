@@ -20,7 +20,15 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: kDebugMode,
       theme: makeAppTheme(),
       initialRoute: '/login',
-      getPages: [GetPage(name: '/login', page: makeLoginPage)],
+      getPages: [
+        GetPage(name: '/login', page: makeLoginPage),
+        GetPage(
+          name: '/surveys',
+          page: () => Scaffold(
+            body: Text('Enquetes'),
+          ),
+        ),
+      ],
     );
   }
 }
