@@ -19,15 +19,17 @@ class App extends StatelessWidget {
       title: 'Flutter Clean Code',
       debugShowCheckedModeBanner: kDebugMode,
       theme: makeAppTheme(),
-      initialRoute: '/login',
+      initialRoute: '/',
       getPages: [
-        GetPage(name: '/login', page: makeLoginPage),
+        GetPage(name: '/', page: makeSplashPage, transition: Transition.fade),
         GetPage(
-          name: '/surveys',
-          page: () => Scaffold(
-            body: Text('Enquetes'),
-          ),
-        ),
+            name: '/login', page: makeLoginPage, transition: Transition.fadeIn),
+        GetPage(
+            name: '/surveys',
+            page: () => Scaffold(
+                  body: Center(child: Text('Enquetes')),
+                ),
+            transition: Transition.fadeIn),
       ],
     );
   }
