@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_clean_code/utils/i18n/i18n.dart';
 import 'package:get/get.dart';
 
 import '../ui/components/components.dart';
 import 'factories/factories.dart';
 
 void main() {
+  R.load(Locale('en, US'));
   runApp(App());
 }
 
