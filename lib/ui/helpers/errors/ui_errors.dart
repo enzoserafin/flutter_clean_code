@@ -1,3 +1,5 @@
+import '../helpers.dart';
+
 enum UIError {
   requiredField,
   invalidField,
@@ -9,13 +11,13 @@ extension UIErrorExtension on UIError {
   String get description {
     switch (this) {
       case UIError.requiredField:
-        return 'Campo obrigatório';
+        return R.strings.msgRequiredField;
       case UIError.invalidField:
-        return 'Campo inválido';
+        return R.strings.msgInvalidField;
       case UIError.invalidCredentials:
-        return 'Credenciais inválidas.';
+        return R.strings.msgInvalidCredentials;
       default:
-        return 'Algo errado aconteceu. Tente novamente em breve.';
+        return R.strings.msgUnexpected;
     }
   }
 }
