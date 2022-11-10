@@ -4,16 +4,16 @@ import 'package:meta/meta.dart'; // Para poder utilizar @required.
 import '../entities/entities.dart';
 
 abstract class AddAccount {
-  Future<AccountEntity> add(AddAccountParamas params);
+  Future<AccountEntity> add(AddAccountParams params);
 }
 
-class AddAccountParamas extends Equatable {
+class AddAccountParams extends Equatable {
   final String name;
   final String email;
   final String password;
   final String passwordConfirmation;
 
-  AddAccountParamas({
+  AddAccountParams({
     @required this.name,
     @required this.email,
     @required this.password,
