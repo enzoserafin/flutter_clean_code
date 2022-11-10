@@ -9,7 +9,7 @@ import '../ui/helpers/helpers.dart';
 import 'factories/factories.dart';
 
 void main() {
-  R.load(Locale('en, US'));
+  R.load(Locale('pt, BR'));
   runApp(App());
 }
 
