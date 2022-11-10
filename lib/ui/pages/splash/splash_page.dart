@@ -15,7 +15,11 @@ class SplashPage extends StatelessWidget {
     presenter.checkAccount();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Clean Code')),
+      appBar: AppBar(
+        title: Text(
+          '4Dev',
+        ),
+      ),
       body: Builder(
         builder: (context) {
           presenter.navigateToStream.listen((page) {
