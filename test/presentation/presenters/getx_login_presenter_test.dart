@@ -2,7 +2,7 @@ import 'package:faker/faker.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import 'package:flutter_clean_code/ui/helpers/errors/errors.dart';
+import 'package:flutter_clean_code/ui/helpers/helpers.dart';
 
 import 'package:flutter_clean_code/domain/helpers/helpers.dart';
 import 'package:flutter_clean_code/domain/entities/entities.dart';
