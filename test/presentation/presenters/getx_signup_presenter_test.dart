@@ -3,6 +3,8 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'package:flutter_clean_code/ui/helpers/helpers.dart';
+
+// import 'package:flutter_clean_code/domain/helpers/helpers.dart';
 import 'package:flutter_clean_code/domain/entities/entities.dart';
 import 'package:flutter_clean_code/domain/usecases/usecases.dart';
 
@@ -13,10 +15,13 @@ class ValidationSpy extends Mock implements Validation {}
 
 class AddAccountSpy extends Mock implements AddAccount {}
 
+class SaveCurrentAccountSpy extends Mock implements SaveCurrentAccount {}
+
 void main() {
   GetxSignUpPresenter sut;
   ValidationSpy validation;
   AddAccountSpy addAccount;
+  SaveCurrentAccountSpy saveCurrentAccount;
   String email;
   String name;
   String password;
@@ -36,12 +41,21 @@ void main() {
     mockAddAccountCall().thenAnswer((_) async => AccountEntity(token));
   }
 
+  // PostExpectation mockSaveCurrentAccountCall() =>
+  //     when(saveCurrentAccount.save(any));
+
+  // void mockSaveCurrentAccountError() {
+  //   mockSaveCurrentAccountCall().thenThrow(DomainError.unexpected);
+  // }
+
   setUp(() {
     validation = ValidationSpy();
     addAccount = AddAccountSpy();
+    saveCurrentAccount = SaveCurrentAccountSpy();
     sut = GetxSignUpPresenter(
       validation: validation,
       addAccount: addAccount,
+      saveCurrentAccount: saveCurrentAccount,
     );
     email = faker.internet.email();
     name = faker.person.name();
@@ -243,5 +257,16 @@ void main() {
         ),
       ),
     ).called(1);
+  });
+
+  test('Should call saveCurrentAccount with correct value', () async {
+    sut.validateName(name);
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+    sut.validatePasswordConfirmation(passwordConfirmation);
+
+    await sut.signUp();
+
+    verify(saveCurrentAccount.save(AccountEntity(token))).called(1);
   });
 }
