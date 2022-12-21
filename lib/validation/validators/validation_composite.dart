@@ -8,11 +8,11 @@ class ValidationComposite implements Validation {
 
   ValidationComposite(this.validations);
 
-  ValidationError validate({@required String field, @required String value}) {
+  ValidationError validate({@required String field, @required Map input}) {
     ValidationError error;
     //Filter dentro da condição do for apenas para rodar o validator de um único campo.
     for (final validation in validations.where((v) => v.field == field)) {
-      error = validation.validate(value);
+      error = validation.validate(input);
       if (error != null) {
         return error;
       }

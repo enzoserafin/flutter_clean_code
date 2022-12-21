@@ -9,14 +9,18 @@ void main() {
 
   setUp(() {
     sut = CompareFieldsValidation(
-        field: 'any_field', valueToCompare: 'any_value');
+        field: 'any_field', fieldToCompare: 'other_field');
   });
 
   test('Should return error if values are not euqal', () {
-    expect(sut.validate('wrong_value'), ValidationError.invalidField);
+    final formDate = {'any_field': 'any_value', 'other_field': 'other_value'};
+
+    expect(sut.validate(formDate), ValidationError.invalidField);
   });
 
-  test('Should return null if values are euqal', () {
-    expect(sut.validate('any_value'), null);
+  test('Should return null if values are equal', () {
+    final formDate = {'any_field': 'any_value', 'other_field': 'any_value'};
+
+    expect(sut.validate(formDate), null);
   });
 }
