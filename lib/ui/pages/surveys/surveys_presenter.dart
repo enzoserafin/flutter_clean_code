@@ -1,5 +1,5 @@
 abstract class SurveysPresenter {
-  // Stream<String> get navigateToStream;
+  Stream<bool> get isLoadingStream;
 
   Future<void> loadData();
 }
