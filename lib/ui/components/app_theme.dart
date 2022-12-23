@@ -9,7 +9,7 @@ ThemeData makeAppTheme() {
   final textTheme = TextTheme(
     headline1: TextStyle(
       fontSize: 30,
-      fontWeight: FontWeight.bold,
+      // fontWeight: FontWeight.bold,
       color: primaryColorDark,
     ),
   );
