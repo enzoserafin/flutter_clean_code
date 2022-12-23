@@ -1,9 +1,6 @@
 import 'package:faker/faker.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
-import 'package:meta/meta.dart';
 
 import 'package:flutter_clean_code/domain/entities/entities.dart';
 import 'package:flutter_clean_code/domain/helpers/helpers.dart';
@@ -12,38 +9,9 @@ import 'package:flutter_clean_code/domain/usecases/usecases.dart';
 import 'package:flutter_clean_code/ui/helpers/helpers.dart';
 import 'package:flutter_clean_code/ui/pages/pages.dart';
 
+import 'package:flutter_clean_code/presentation/presenters/presenters.dart';
+
 class LoadSurveysSpy extends Mock implements LoadSurveys {}
-
-class GetxSurveysPresenter {
-  final LoadSurveys loadSurveys;
-  final _isLoading = true.obs;
-  final _surveys = Rx<List<SurveyViewModel>>();
-
-  Stream<bool> get isLoadingStream => _isLoading.stream;
-  Stream<List<SurveyViewModel>> get surveyStream => _surveys.stream;
-
-  GetxSurveysPresenter({@required this.loadSurveys});
-
-  Future<void> loadData() async {
-    try {
-      _isLoading.value = true;
-
-      List<SurveyEntity> surveys = await loadSurveys.load();
-      _surveys.value = surveys
-          .map((survey) => SurveyViewModel(
-                id: survey.id,
-                question: survey.question,
-                date: DateFormat('dd MM yyyy').format(survey.dateTime),
-                didAnswer: survey.didAnswer,
-              ))
-          .toList();
-    } on DomainError {
-      _surveys.subject.addError(UIError.unexpected.description);
-    } finally {
-      _isLoading.value = false;
-    }
-  }
-}
 
 void main() {
   GetxSurveysPresenter sut;
