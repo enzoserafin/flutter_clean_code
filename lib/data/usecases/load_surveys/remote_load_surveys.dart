@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-// import '../../../domain/entities/entities.dart';
+import '../../../domain/entities/entities.dart';
 import '../../../domain/helpers/helpers.dart';
 import '../../../domain/usecases/usecases.dart';
 
@@ -16,12 +16,13 @@ class RemoteLoadSurveys implements LoadSurveys {
     @required this.httpClient,
   });
 
-  Future<dynamic> load() async {
+  Future<List<SurveyEntity>> load() async {
     try {
       final httpResponse = await httpClient.request(url: url, method: 'get');
 
       return httpResponse
-          .map((json) => RemoteSurveyModel.fromJson(json).toEntity())
+          .map<SurveyEntity>(
+              (json) => RemoteSurveyModel.fromJson(json).toEntity())
           .toList();
     } on HttpError catch (error) {
       throw error == HttpError.forbidden

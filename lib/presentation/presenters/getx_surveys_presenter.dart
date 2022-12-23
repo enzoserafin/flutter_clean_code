@@ -9,13 +9,14 @@ import '../../domain/usecases/usecases.dart';
 import '../../ui/helpers/helpers.dart';
 import '../../ui/pages/pages.dart';
 
-class GetxSurveysPresenter {
+class GetxSurveysPresenter implements SurveysPresenter {
   final LoadSurveys loadSurveys;
+
   final _isLoading = true.obs;
   final _surveys = Rx<List<SurveyViewModel>>();
 
   Stream<bool> get isLoadingStream => _isLoading.stream;
-  Stream<List<SurveyViewModel>> get surveyStream => _surveys.stream;
+  Stream<List<SurveyViewModel>> get surveysStream => _surveys.stream;
 
   GetxSurveysPresenter({@required this.loadSurveys});
 
