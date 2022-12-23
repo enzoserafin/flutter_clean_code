@@ -19,11 +19,15 @@ class AuthorizeHttpClientDecorator implements HttpClient {
     Map body,
     Map headers,
   }) async {
-    final token = await fetchSecureCacheStorage.fetchSecure('token');
-    final authorizedHeaders = headers ?? {}
-      ..addAll({'x-access-token': token});
-    return await decoratee.request(
-        url: url, method: method, body: body, headers: authorizedHeaders);
+    try {
+      final token = await fetchSecureCacheStorage.fetchSecure('token');
+      final authorizedHeaders = headers ?? {}
+        ..addAll({'x-access-token': token});
+      return await decoratee.request(
+          url: url, method: method, body: body, headers: authorizedHeaders);
+    } catch (e) {
+      throw HttpError.forbidden;
+    }
   }
 }
 
@@ -42,10 +46,16 @@ void main() {
   String token;
   String httpResponse;
 
+  PostExpectation mockTokenCall() =>
+      when(fetchSecureCacheStorage.fetchSecure(any));
+
   void mockToken() {
     token = faker.guid.guid();
-    when(fetchSecureCacheStorage.fetchSecure(any))
-        .thenAnswer((_) async => token);
+    mockTokenCall().thenAnswer((_) async => token);
+  }
+
+  void mockTokenError() {
+    mockTokenCall().thenThrow(Exception());
   }
 
   void mockhttpResponse() {
@@ -107,5 +117,13 @@ void main() {
     final response = await sut.request(url: url, method: method, body: body);
 
     expect(response, httpResponse);
+  });
+
+  test('Should throw Forbidden if FetchSecureCacheStorage throws', () async {
+    mockTokenError();
+
+    final future = sut.request(url: url, method: method, body: body);
+
+    expect(future, throwsA(HttpError.forbidden));
   });
 }
