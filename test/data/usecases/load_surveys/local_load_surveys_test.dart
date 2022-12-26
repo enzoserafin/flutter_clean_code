@@ -146,7 +146,7 @@ void main() {
       mockRequest().thenAnswer((_) async => data);
     }
 
-    // void mockFetchError() => mockRequest().thenThrow(Exception());
+    void mockFetchError() => mockRequest().thenThrow(Exception());
 
     setUp(() {
       cacheStorage = CacheStorageSpy();
@@ -182,6 +182,14 @@ void main() {
           'didAnswer': '2018-02-02T00:00:00Z',
         },
       ]);
+
+      await sut.validate();
+
+      verify(cacheStorage.delete('surveys')).called(1);
+    });
+
+    test('Should delete cache if it is incomplete', () async {
+      mockFetchError();
 
       await sut.validate();
 
