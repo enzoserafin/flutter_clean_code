@@ -1,5 +1,5 @@
-// import '../entities/entities.dart';
+import '../entities/entities.dart';
 
 abstract class LoadSurveys {
-  Future<dynamic> load();
+  Future<List<SurveyEntity>> load();
 }
