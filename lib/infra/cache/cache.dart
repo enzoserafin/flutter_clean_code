@@ -1,1 +1,1 @@
-export './local_store_adapter.dart';
+export './secure_store_adapter.dart';

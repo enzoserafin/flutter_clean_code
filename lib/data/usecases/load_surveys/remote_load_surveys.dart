@@ -21,7 +21,7 @@ class RemoteLoadSurveys implements LoadSurveys {
       final httpResponse = await httpClient.request(url: url, method: 'get');
 
       return httpResponse
-          ._map<SurveyEntity>(
+          .map<SurveyEntity>(
               (json) => RemoteSurveyModel.fromJson(json).toEntity())
           .toList();
     } on HttpError catch (error) {
