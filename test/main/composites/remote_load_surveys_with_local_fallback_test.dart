@@ -1,11 +1,11 @@
 import 'package:faker/faker.dart';
-import 'package:flutter_clean_code/domain/helpers/helpers.dart';
 import 'package:meta/meta.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import 'package:flutter_clean_code/domain/usecases/usecases.dart';
 import 'package:flutter_clean_code/domain/entities/entities.dart';
+import 'package:flutter_clean_code/domain/helpers/helpers.dart';
+import 'package:flutter_clean_code/domain/usecases/usecases.dart';
 import 'package:flutter_clean_code/data/usecases/usecases.dart';
 
 class RemoteLoadSurveysWithLocalFallback implements LoadSurveys {
@@ -71,6 +71,9 @@ void main() {
     mockLocalLoadCall().thenAnswer((_) async => localSurveys);
   }
 
+  void mockLocalLoadError() =>
+      mockLocalLoadCall().thenThrow(DomainError.unexpected);
+
   setUp(() {
     remote = RemoteLoadSurveysSpy();
     local = LocalLoadSurveysSpy();
@@ -120,5 +123,14 @@ void main() {
     final surveys = await sut.load();
 
     expect(surveys, localSurveys);
+  });
+
+  test('Should throw UnexpectedError if remote and local throws', () async {
+    mockRemoteLoadError(DomainError.unexpected);
+    mockLocalLoadError();
+
+    final future = sut.load();
+
+    expect(future, throwsA(DomainError.unexpected));
   });
 }
