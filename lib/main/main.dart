@@ -22,7 +22,7 @@ class App extends StatelessWidget {
       title: 'Flutter Clean Code',
       debugShowCheckedModeBanner: kDebugMode,
       theme: makeAppTheme(),
-      initialRoute: '/',
+      initialRoute: '/survey_result/:3',
       getPages: [
         GetPage(name: '/', page: makeSplashPage, transition: Transition.fade),
         GetPage(
@@ -32,6 +32,10 @@ class App extends StatelessWidget {
             name: '/surveys',
             page: makeSurveysPage,
             transition: Transition.fadeIn),
+        GetPage(
+          name: '/survey_result/:survey_id',
+          page: makeSurveyResultPage,
+        ),
       ],
     );
   }
