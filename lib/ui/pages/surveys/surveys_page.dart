@@ -4,8 +4,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../../../ui/pages/pages.dart';
 import '../../components/components.dart';
 import '../../helpers/helpers.dart';
-import 'components/componets.dart';
-import 'surveys_presenter.dart';
+import './components/componets.dart';
+import './surveys_presenter.dart';
 
 class SurveysPage extends StatelessWidget {
   final SurveysPresenter presenter;
