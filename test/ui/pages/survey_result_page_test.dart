@@ -147,7 +147,7 @@ void main() {
     expect(find.text('60%'), findsOneWidget);
     expect(find.text('40%'), findsOneWidget);
     expect(find.byType(ActiveIcon), findsOneWidget);
-    expect(find.byType(DisableIcon), findsOneWidget);
+    expect(find.byType(DisabledIcon), findsOneWidget);
     final image =
         tester.widget<Image>(find.byType(Image)).image as NetworkImage;
     expect(image.url, 'Image 0');
