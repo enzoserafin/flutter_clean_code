@@ -28,7 +28,7 @@ class SurveyResultPage extends StatelessWidget {
 
           presenter.loadData();
 
-          return StreamBuilder<dynamic>(
+          return StreamBuilder<SurveyResultViewModel>(
             stream: presenter.surveyResultStream,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
@@ -39,7 +39,7 @@ class SurveyResultPage extends StatelessWidget {
               }
 
               if (snapshot.hasData) {
-                return SurveyResult();
+                return SurveyResult(snapshot.data);
               }
 
               return SizedBox.shrink();
