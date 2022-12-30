@@ -22,7 +22,7 @@ class App extends StatelessWidget {
       title: 'Flutter Clean Code',
       debugShowCheckedModeBanner: kDebugMode,
       theme: makeAppTheme(),
-      initialRoute: '/survey_result/:3',
+      initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: makeSplashPage, transition: Transition.fade),
         GetPage(
