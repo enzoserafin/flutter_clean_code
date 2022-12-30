@@ -14,30 +14,46 @@ void main() {
   SurveysPresenterSpy presenter;
   StreamController<bool> isLoadingController;
   StreamController<List<SurveyViewModel>> surverysController;
+  StreamController<String> navigateToController;
 
   void initStreams() {
     isLoadingController = StreamController<bool>();
     surverysController = StreamController<List<SurveyViewModel>>();
+    navigateToController = StreamController<String>();
   }
 
   void mockStreams() {
     when(presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
     when(presenter.surveysStream).thenAnswer((_) => surverysController.stream);
+    when(presenter.navigateToStream)
+        .thenAnswer((_) => navigateToController.stream);
   }
 
   void closeStreams() {
     isLoadingController.close();
     surverysController.close();
+    navigateToController.close();
   }
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = SurveysPresenterSpy();
     initStreams();
     mockStreams();
-    final surveysPage = GetMaterialApp(initialRoute: '/surveys', getPages: [
-      GetPage(name: '/surveys', page: () => SurveysPage(presenter))
-    ]);
+    final surveysPage = GetMaterialApp(
+      initialRoute: '/surveys',
+      getPages: [
+        GetPage(
+          name: '/surveys',
+          page: () => SurveysPage(presenter),
+        ),
+        GetPage(
+            name: '/any_route',
+            page: () => Scaffold(
+                  body: Text('fake page'),
+                ))
+      ],
+    );
 
     await tester.pumpWidget(surveysPage);
   }
@@ -130,5 +146,28 @@ void main() {
     await tester.tap(find.text('Recarregar'));
 
     verify(presenter.loadData()).called(2);
+  });
+
+  testWidgets('Should call gotoSurveyResult on survey click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    surverysController.add(makeSurveys());
+    await tester.pump();
+
+    await tester.tap(find.text('Question 1'));
+    await tester.pump();
+
+    verify(presenter.goToSurveyResult('1')).called(1);
+  });
+
+  testWidgets('Should change page', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/any_route');
+    await tester.pumpAndSettle();
+
+    expect(Get.currentRoute, '/any_route');
+    expect(find.text('fake page'), findsOneWidget);
   });
 }
