@@ -26,11 +26,13 @@ class AuthorizeHttpClientDecorator implements HttpClient {
         ..addAll({'x-access-token': token});
       return await decoratee.request(
           url: url, method: method, body: body, headers: authorizedHeaders);
-    } on HttpError {
-      rethrow;
-    } catch (e) {
-      await deleteSecureCacheStorage.deleteSecure('token');
-      throw HttpError.forbidden;
+    } catch (error) {
+      if (error is HttpError && error != HttpError.forbidden) {
+        rethrow;
+      } else {
+        await deleteSecureCacheStorage.deleteSecure('token');
+        throw HttpError.forbidden;
+      }
     }
   }
 }

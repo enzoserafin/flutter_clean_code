@@ -122,4 +122,14 @@ void main() {
 
     expect(future, throwsA(HttpError.badRequest));
   });
+
+  test('Should delete cache if request throws Forbidden Error', () async {
+    mockHttpResponseError(HttpError.forbidden);
+
+    final future = sut.request(url: url, method: method, body: body);
+    await untilCalled(deleteSecureCacheStorage.deleteSecure('token'));
+
+    expect(future, throwsA(HttpError.forbidden));
+    verify(deleteSecureCacheStorage.deleteSecure('token')).called(1);
+  });
 }
