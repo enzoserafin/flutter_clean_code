@@ -24,28 +24,24 @@ class LocalLoadSurveyResult implements LoadSurveyResult {
     }
   }
 
-  // Future<void> validate() async {
-  //   try {
-  //     final data = await cacheStorage.fetch('surveys');
-  //     _mapToEntity(data);
-  //   } on Exception {
-  //     cacheStorage.delete('surveys');
-  //   }
-  // }
+  Future<void> validate(String surveyId) async {
+    try {
+      final data = await cacheStorage.fetch('survey_result/$surveyId');
+      LocalSurveyResultModel.fromJson(data).toEntity();
+    } on Exception {
+      cacheStorage.delete('survey_result/$surveyId');
+    }
+  }
 
-  // Future<void> save(List<SurveyEntity> surveys) async {
-  //   try {
-  //     await cacheStorage.save(key: 'surveys', value: _mapToJson(surveys));
-  //   } catch (e) {
-  //     throw DomainError.unexpected;
-  //   }
-  // }
-
-  // List<SurveyEntity> _mapToEntity(dynamic list) => list
-  //     .map<SurveyEntity>((json) => LocalSurveyModel.fromJson(json).toEntity())
-  //     .toList();
-
-  // List<Map> _mapToJson(List<SurveyEntity> list) => list
-  //     .map((entity) => LocalSurveyModel.fromEntity(entity).toJson())
-  //     .toList();
+  Future<void> save({
+    @required String surveyId,
+    @required SurveyResultEntity surveyResult,
+  }) async {
+    try {
+      final json = LocalSurveyResultModel.fromEntity(surveyResult).toJson();
+      await cacheStorage.save(key: 'survey_result/$surveyId', value: json);
+    } catch (e) {
+      throw DomainError.unexpected;
+    }
+  }
 }

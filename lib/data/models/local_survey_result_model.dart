@@ -30,13 +30,15 @@ class LocalSurveyResultModel {
     );
   }
 
-  // factory LocalSurveyResultModel.fromEntity(SurveyEntity entity) =>
-  //     LocalSurveyResultModel(
-  //       id: entity.id,
-  //       question: entity.question,
-  //       date: entity.dateTime,
-  //       didAnswer: entity.didAnswer,
-  //     );
+  factory LocalSurveyResultModel.fromEntity(SurveyResultEntity entity) =>
+      LocalSurveyResultModel(
+        surveyId: entity.surveyId,
+        question: entity.question,
+        answers: entity.answers
+            .map<LocalSurveyAnswerModel>(
+                (answer) => LocalSurveyAnswerModel.fromEntity(answer))
+            .toList(),
+      );
 
   SurveyResultEntity toEntity() => SurveyResultEntity(
         surveyId: surveyId,
@@ -46,10 +48,9 @@ class LocalSurveyResultModel {
             .toList(),
       );
 
-  // Map<String, String> toJson() => {
-  //       'id': id,
-  //       'question': question,
-  //       'date': date.toIso8601String(),
-  //       'didAnswer': didAnswer.toString(),
-  //     };
+  Map toJson() => {
+        'surveyId': surveyId,
+        'question': question,
+        'answers': answers.map<Map>((answer) => answer.toJson()).toList(),
+      };
 }
