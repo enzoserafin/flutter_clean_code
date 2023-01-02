@@ -1,9 +1,9 @@
 import 'package:faker/faker.dart';
-import 'package:flutter_clean_code/domain/helpers/helpers.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:meta/meta.dart';
 
+import 'package:flutter_clean_code/domain/helpers/helpers.dart';
 import 'package:flutter_clean_code/domain/entities/entities.dart';
 import 'package:flutter_clean_code/domain/usecases/usecases.dart';
 import 'package:flutter_clean_code/data/usecases/usecases.dart';
@@ -74,6 +74,9 @@ void main() {
     mockLocalLoadCall().thenAnswer((_) async => localResult);
   }
 
+  void mockLocalLoadError() =>
+      mockLocalLoadCall().thenThrow(DomainError.unexpected);
+
   setUp(() {
     surveyId = faker.guid.guid();
     remote = RemoteLoadSurveyResultSpy();
@@ -122,8 +125,16 @@ void main() {
     mockRemoteLoadError(DomainError.unexpected);
 
     final response = await sut.loadBySurvey(surveyId: surveyId);
-    print('Reponse: $response');
 
     expect(response, localResult);
+  });
+
+  test('Should throw UnexpectedError if local load fails', () async {
+    mockRemoteLoadError(DomainError.unexpected);
+    mockLocalLoadError();
+
+    final future = sut.loadBySurvey(surveyId: surveyId);
+
+    expect(future, throwsA(DomainError.unexpected));
   });
 }
