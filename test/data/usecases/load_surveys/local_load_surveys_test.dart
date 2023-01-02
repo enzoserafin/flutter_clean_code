@@ -97,7 +97,7 @@ void main() {
       expect(future, throwsA(DomainError.unexpected));
     });
 
-    test('Should throw UnexpectedErrorif cache is incomplete', () async {
+    test('Should throw UnexpectedError if cache is incomplete', () async {
       mockFetch([
         {
           'date': '2020-02-02T00:00:00Z',
@@ -110,7 +110,7 @@ void main() {
       expect(future, throwsA(DomainError.unexpected));
     });
 
-    test('Should throw UnexpectedErrorif cache is incomplete', () async {
+    test('Should throw UnexpectedError if cache is cache throws', () async {
       mockFetchError();
 
       final future = sut.load();
@@ -188,7 +188,7 @@ void main() {
       verify(cacheStorage.delete('surveys')).called(1);
     });
 
-    test('Should delete cache if it is incomplete', () async {
+    test('Should delete cache if it throws', () async {
       mockFetchError();
 
       await sut.validate();
