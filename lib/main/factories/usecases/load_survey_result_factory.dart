@@ -1,6 +1,6 @@
 import '../../../data/usecases/usecases.dart';
 import '../../../domain/usecases/usecases.dart';
-// import '../../composites/composites.dart';
+import '../../composites/composites.dart';
 import '../factories.dart';
 
 LoadSurveyResult makeRemoteLoadSurveyResult(String surveyId) =>
@@ -9,11 +9,11 @@ LoadSurveyResult makeRemoteLoadSurveyResult(String surveyId) =>
       url: makeApiUrl('surveys_result/$surveyId/results'),
     );
 
-// LoadSurveys makeLocalLoadSurveys() =>
-//     LocalLoadSurveys(cacheStorage: makeLocalStorageAdapter());
+LoadSurveyResult makeLocalLoadSurveyResult(String surveyId) =>
+    LocalLoadSurveyResult(cacheStorage: makeLocalStorageAdapter());
 
-// LoadSurveys makeRemoteLoadSurveysWithLocalFallback() =>
-//     RemoteLoadSurveysWithLocalFallback(
-//       remote: makeRemoteLoadSurveys(),
-//       local: makeLocalLoadSurveys(),
-//     );
+LoadSurveyResult makeRemoteLoadSurveyResultWithLocalFallback(String surveyId) =>
+    RemoteLoadSurveyResultWithLocalFallback(
+      remote: makeRemoteLoadSurveyResult(surveyId),
+      local: makeLocalLoadSurveyResult(surveyId),
+    );
