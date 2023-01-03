@@ -94,6 +94,16 @@ void main() {
         ));
   });
 
+  test(
+      'Should throw UnexpectedError if HttpClient returns 200 with invalid data',
+      () async {
+    mockHttpData({'invalid_key': 'invalid_value'});
+
+    final future = sut.save();
+
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
   test('Should throw unexpectedError if HttpClient returns 404', () async {
     mockHttpError(HttpError.noFound);
 
