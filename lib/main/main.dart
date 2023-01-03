@@ -17,11 +17,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    final routeObserver = Get.put<RouteObserver>(RouteObserver<PageRoute>());
 
     return GetMaterialApp(
       title: 'Flutter Clean Code',
       debugShowCheckedModeBanner: kDebugMode,
       theme: makeAppTheme(),
+      navigatorObservers: [routeObserver],
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: makeSplashPage, transition: Transition.fade),
