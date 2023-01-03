@@ -56,6 +56,24 @@ class GetxSurveyResultPresenter extends GetxController
   }
 
   Future<void> save({String answer}) async {
-    await saveSurveyResult.save(answer: answer);
+    isLoading = true;
+
+    SurveyResultEntity surveyResult =
+        await saveSurveyResult.save(answer: answer);
+
+    _surveyResult.value = SurveyResultViewModel(
+      surveyId: surveyResult.surveyId,
+      question: surveyResult.question,
+      answers: surveyResult.answers
+          .map((answer) => SurveyAnswerViewModel(
+                image: answer.image,
+                answer: answer.answer,
+                isCurrentAnswer: answer.isCurrentAnswer,
+                percent: '${answer.percent}%',
+              ))
+          .toList(),
+    );
+
+    isLoading = false;
   }
 }
