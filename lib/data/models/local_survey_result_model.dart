@@ -21,7 +21,7 @@ class LocalSurveyResultModel {
     }
 
     return LocalSurveyResultModel(
-      surveyId: json['id'],
+      surveyId: json['surveyId'],
       question: json['question'],
       answers: json['answers']
           .map<LocalSurveyAnswerModel>(
