@@ -8,6 +8,8 @@ import 'package:flutter_clean_code/domain/entities/entities.dart';
 import 'package:flutter_clean_code/data/http/http.dart';
 import 'package:flutter_clean_code/data/usecases/usecases.dart';
 
+import '../../../mocks/fake_surveys_factory.dart';
+
 class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
@@ -15,21 +17,6 @@ void main() {
   HttpClientSpy httpClient;
   String url;
   List<Map> list;
-
-  List<Map> mockValidData() => [
-        {
-          'id': faker.guid.guid(),
-          'question': faker.randomGenerator.string(50),
-          'didAnswer': faker.randomGenerator.boolean(),
-          'date': faker.date.dateTime().toIso8601String(),
-        },
-        {
-          'id': faker.guid.guid(),
-          'question': faker.randomGenerator.string(50),
-          'didAnswer': faker.randomGenerator.boolean(),
-          'date': faker.date.dateTime().toIso8601String(),
-        }
-      ];
 
   PostExpectation mockRequest() => when(httpClient.request(
         url: anyNamed('url'),
@@ -49,7 +36,7 @@ void main() {
     url = faker.internet.httpUrl();
     httpClient = HttpClientSpy();
     sut = RemoteLoadSurveys(url: url, httpClient: httpClient);
-    mockHttpData(mockValidData());
+    mockHttpData(FakeSurveysFactory.mockApiJson());
   });
 
   test('Should call HttpClient with correct values', () async {
@@ -83,9 +70,7 @@ void main() {
   test(
       'Should throw UnexpectedError if HttpClient returns 200 with invalid data',
       () async {
-    mockHttpData([
-      {'invalid_key': 'invalid_value'}
-    ]);
+    mockHttpData(FakeSurveysFactory.mockInvalidApiJson());
 
     final future = sut.load();
 

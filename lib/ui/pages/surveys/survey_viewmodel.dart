@@ -8,7 +8,7 @@ class SurveyViewModel extends Equatable {
   final bool didAnswer;
 
   @override
-  List<Object> get props => ['id', 'question', 'date', 'didAnswer'];
+  List get props => [id, question, date, didAnswer];
 
   SurveyViewModel({
     @required this.id,
@@ -16,4 +16,9 @@ class SurveyViewModel extends Equatable {
     @required this.date,
     @required this.didAnswer,
   });
+
+  @override
+  String toString() {
+    return 'SurveyViewModel(id: $id, question: $question, date: $date, didAnswer: $didAnswer)';
+  }
 }
