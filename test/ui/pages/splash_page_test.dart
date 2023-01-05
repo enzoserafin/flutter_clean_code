@@ -2,23 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import 'package:flutter_clean_code/ui/pages/pages.dart';
 
 import '../helpers/helpers.dart';
-
-class SplashPresenterSpy extends Mock implements SplashPresenter {}
+import '../mocks/mocks.dart';
 
 void main() {
-  SplashPresenterSpy presenter;
-  StreamController<String> navigateToController;
+  late SplashPresenterSpy presenter;
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = SplashPresenterSpy();
-    navigateToController = StreamController<String>();
-    when(presenter.navigateToStream)
-        .thenAnswer((_) => navigateToController.stream);
 
     await tester.pumpWidget(
       makePage(
@@ -29,7 +24,7 @@ void main() {
   }
 
   tearDown(() {
-    navigateToController.close();
+    presenter.dispose();
   });
 
   testWidgets('Should present spinner on page load',
@@ -43,13 +38,13 @@ void main() {
       (WidgetTester tester) async {
     await loadPage(tester);
 
-    verify(presenter.checkAccount()).called(1);
+    verify(() => presenter.checkAccount()).called(1);
   });
 
   testWidgets('Should change page', (WidgetTester tester) async {
     await loadPage(tester);
 
-    navigateToController.add('/any_route');
+    presenter.emitNavigateTo('/any_route');
     await tester.pumpAndSettle();
 
     expect(currentRoute, '/any_route');
@@ -59,11 +54,7 @@ void main() {
   testWidgets('Should not change page', (WidgetTester tester) async {
     await loadPage(tester);
 
-    navigateToController.add('');
-    await tester.pump();
-    expect(currentRoute, '/');
-
-    navigateToController.add(null);
+    presenter.emitNavigateTo('');
     await tester.pump();
     expect(currentRoute, '/');
   });

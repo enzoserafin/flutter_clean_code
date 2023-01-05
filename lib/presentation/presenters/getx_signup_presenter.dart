@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:meta/meta.dart';
 
 import '../../ui/helpers/helpers.dart';
 import '../../ui/pages/pages.dart';
@@ -16,26 +15,26 @@ class GetxSignUpPresenter extends GetxController
   final AddAccount addAccount;
   final SaveCurrentAccount saveCurrentAccount;
 
-  var _emailError = Rx<UIError>();
-  var _nameError = Rx<UIError>();
-  var _passwordError = Rx<UIError>();
-  var _passwordConfirmationError = Rx<UIError>();
+  var _emailError = Rx<UIError?>(null);
+  var _nameError = Rx<UIError?>(null);
+  var _passwordError = Rx<UIError?>(null);
+  var _passwordConfirmationError = Rx<UIError?>(null);
 
-  String _name;
-  String _email;
-  String _password;
-  String _passwordConfirmation;
+  String? _name;
+  String? _email;
+  String? _password;
+  String? _passwordConfirmation;
 
-  Stream<UIError> get emailErrorStream => _emailError.stream;
-  Stream<UIError> get nameErrorStream => _nameError.stream;
-  Stream<UIError> get passwordErrorStream => _passwordError.stream;
-  Stream<UIError> get passwordConfirmationErrorStream =>
+  Stream<UIError?> get emailErrorStream => _emailError.stream;
+  Stream<UIError?> get nameErrorStream => _nameError.stream;
+  Stream<UIError?> get passwordErrorStream => _passwordError.stream;
+  Stream<UIError?> get passwordConfirmationErrorStream =>
       _passwordConfirmationError.stream;
 
   GetxSignUpPresenter({
-    @required this.validation,
-    @required this.addAccount,
-    @required this.saveCurrentAccount,
+    required this.validation,
+    required this.addAccount,
+    required this.saveCurrentAccount,
   });
 
   void validateEmail(String email) {
@@ -73,7 +72,7 @@ class GetxSignUpPresenter extends GetxController
         _passwordConfirmation != null;
   }
 
-  UIError _validateField(String field) {
+  UIError? _validateField(String field) {
     final formData = {
       'name': _name,
       'email': _email,
@@ -97,10 +96,10 @@ class GetxSignUpPresenter extends GetxController
       mainError = null;
       isLoading = true;
       final account = await addAccount.add(AddAccountParams(
-          name: _name,
-          email: _email,
-          password: _password,
-          passwordConfirmation: _passwordConfirmation));
+          name: _name!,
+          email: _email!,
+          password: _password!,
+          passwordConfirmation: _passwordConfirmation!));
 
       await saveCurrentAccount.save(account);
       navigateTo = '/surveys';

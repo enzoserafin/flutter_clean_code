@@ -24,19 +24,19 @@ class SurveyResultPage extends StatelessWidget
           handleSessionExpired(presenter.isSessionExpiredStream);
           presenter.loadData();
 
-          return StreamBuilder<SurveyResultViewModel>(
+          return StreamBuilder<SurveyResultViewModel?>(
             stream: presenter.surveyResultStream,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return RealoadScreen(
-                  error: snapshot.error,
+                  error: snapshot.error as String,
                   reload: presenter.loadData,
                 );
               }
 
               if (snapshot.hasData) {
                 return SurveyResult(
-                  viewModel: snapshot.data,
+                  viewModel: snapshot.data!,
                   onSave: presenter.save,
                 );
               }

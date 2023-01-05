@@ -1,14 +1,13 @@
 import 'package:localstorage/localstorage.dart';
-import 'package:meta/meta.dart';
 
 import '../../data/cache/cache.dart';
 
 class LocalStorageAdapter implements CacheStorage {
   LocalStorage localStorage;
 
-  LocalStorageAdapter({@required this.localStorage});
+  LocalStorageAdapter({required this.localStorage});
 
-  Future<void> save({@required String key, @required dynamic value}) async {
+  Future<void> save({required String key, required dynamic value}) async {
     await localStorage.deleteItem(key);
     await localStorage.setItem(key, value);
   }

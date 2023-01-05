@@ -5,7 +5,7 @@ import '../helpers/helpers.dart';
 class RealoadScreen extends StatelessWidget {
   final String error;
   final Future<void> Function() reload;
-  const RealoadScreen({@required this.error, @required this.reload});
+  const RealoadScreen({required this.error, required this.reload});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class RealoadScreen extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: reload,
             child: Text(R.strings.reload),
           )

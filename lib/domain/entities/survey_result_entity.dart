@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import 'entities.dart';
 
@@ -12,9 +11,9 @@ class SurveyResultEntity extends Equatable {
   List get props => [surveyId, question, answers];
 
   SurveyResultEntity({
-    @required this.surveyId,
-    @required this.question,
-    @required this.answers,
+    required this.surveyId,
+    required this.question,
+    required this.answers,
   });
 
   @override

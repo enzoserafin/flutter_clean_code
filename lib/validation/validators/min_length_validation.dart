@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 import '../../presentation/protocols/protocols.dart';
 
@@ -12,11 +11,11 @@ class MinLengthValidation extends Equatable implements FieldValidation {
   List get props => [field, size];
 
   MinLengthValidation({
-    @required this.field,
-    @required this.size,
+    required this.field,
+    required this.size,
   });
 
-  ValidationError validate(Map input) {
+  ValidationError? validate(Map input) {
     return input[field] != null && input[field].length >= size
         ? null
         : ValidationError.invalidField;

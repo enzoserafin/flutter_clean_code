@@ -5,7 +5,7 @@ import 'package:flutter_clean_code/presentation/protocols/validation.dart';
 import 'package:flutter_clean_code/validation/validators/validators.dart';
 
 void main() {
-  CompareFieldsValidation sut;
+  late CompareFieldsValidation sut;
 
   setUp(() {
     sut = CompareFieldsValidation(

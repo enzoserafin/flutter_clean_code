@@ -7,7 +7,7 @@ import 'package:flutter_clean_code/presentation/protocols/validation.dart';
 import 'package:flutter_clean_code/validation/validators/validators.dart';
 
 void main() {
-  MinLengthValidation sut;
+  late MinLengthValidation sut;
 
   setUp(() {
     sut = MinLengthValidation(field: 'any_field', size: 5);
